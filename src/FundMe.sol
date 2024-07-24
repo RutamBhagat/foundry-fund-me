@@ -2,6 +2,7 @@
 pragma solidity ^0.8.19;
 
 import {PriceConverter} from "./PriceConverter.sol";
+import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 
 error FundMe__NotOwner();
 
@@ -11,18 +12,14 @@ contract FundMe {
     uint256 public constant MINIMUM_USD = 5e18;
     address public immutable I_OWNER;
     address[] public s_funders;
-    mapping(address funder => uint256 amountFunded)
-        public s_addressToAmountFunded;
+    mapping(address funder => uint256 amountFunded) public s_addressToAmountFunded;
 
     constructor() {
         I_OWNER = msg.sender;
     }
 
     function fund() public payable {
-        require(
-            msg.value.getConversionRate() >= MINIMUM_USD,
-            "Funding amount must be at least 5 USD of ETH"
-        );
+        require(msg.value.getConversionRate() >= MINIMUM_USD, "Funding amount must be at least 5 USD of ETH");
         s_funders.push(msg.sender);
         s_addressToAmountFunded[msg.sender] += msg.value;
     }
@@ -33,9 +30,7 @@ contract FundMe {
             s_addressToAmountFunded[funder] = 0;
         }
         s_funders = new address[](0);
-        (bool callSuccess, ) = payable(msg.sender).call{
-            value: address(this).balance
-        }("");
+        (bool callSuccess,) = payable(msg.sender).call{value: address(this).balance}("");
         require(callSuccess, "Withdrawal failed");
     }
 
@@ -44,6 +39,10 @@ contract FundMe {
             revert FundMe__NotOwner();
         }
         _;
+    }
+
+    function getVersion() public view returns (uint256) {
+        return PriceConverter.getVersion();
     }
 
     fallback() external payable {
