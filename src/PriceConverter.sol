@@ -15,9 +15,4 @@ library PriceConverter {
         uint256 ethAmountInUsd = (ethPrice * ethAmount) / 1e18;
         return ethAmountInUsd;
     }
-
-    function getVersion(AggregatorV3Interface priceFeed) internal view returns (uint256) {
-        // This test can only be done with --fork-url $SEPOLIA_RPC_URL otherwise it will fail
-        return priceFeed.version();
-    }
 }

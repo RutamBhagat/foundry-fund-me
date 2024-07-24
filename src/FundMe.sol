@@ -46,7 +46,7 @@ contract FundMe {
     }
 
     function getVersion() public view returns (uint256) {
-        return PriceConverter.getVersion(s_price_feed);
+        return s_price_feed.version();
     }
 
     fallback() external payable {
