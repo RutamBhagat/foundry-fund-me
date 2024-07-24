@@ -13,13 +13,17 @@ contract FundMe {
     address public immutable I_OWNER;
     address[] public s_funders;
     mapping(address funder => uint256 amountFunded) public s_addressToAmountFunded;
+    AggregatorV3Interface private s_price_feed;
 
-    constructor() {
+    constructor(address price_feed) {
         I_OWNER = msg.sender;
+        s_price_feed = AggregatorV3Interface(price_feed);
     }
 
     function fund() public payable {
-        require(msg.value.getConversionRate() >= MINIMUM_USD, "Funding amount must be at least 5 USD of ETH");
+        require(
+            msg.value.getConversionRate(s_price_feed) >= MINIMUM_USD, "Funding amount must be at least 5 USD of ETH"
+        );
         s_funders.push(msg.sender);
         s_addressToAmountFunded[msg.sender] += msg.value;
     }
@@ -42,7 +46,7 @@ contract FundMe {
     }
 
     function getVersion() public view returns (uint256) {
-        return PriceConverter.getVersion();
+        return PriceConverter.getVersion(s_price_feed);
     }
 
     fallback() external payable {
