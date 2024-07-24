@@ -18,6 +18,7 @@ library PriceConverter {
     }
 
     function getVersion() internal view returns (uint256) {
+        // This test can only be done with --fork-url $SEPOLIA_RPC_URL otherwise it will fail
         AggregatorV3Interface priceFeed = AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306);
         return priceFeed.version();
     }
