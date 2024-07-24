@@ -9,13 +9,13 @@ contract FundMe {
     using PriceConverter for uint256;
 
     uint256 public constant MINIMUM_USD = 5e18;
-    address public immutable i_owner;
-    address[] public funders;
+    address public immutable I_OWNER;
+    address[] public s_funders;
     mapping(address funder => uint256 amountFunded)
-        public addressToAmountFunded;
+        public s_addressToAmountFunded;
 
     constructor() {
-        i_owner = msg.sender;
+        I_OWNER = msg.sender;
     }
 
     function fund() public payable {
@@ -23,16 +23,16 @@ contract FundMe {
             msg.value.getConversionRate() >= MINIMUM_USD,
             "Funding amount must be at least 5 USD of ETH"
         );
-        funders.push(msg.sender);
-        addressToAmountFunded[msg.sender] += msg.value;
+        s_funders.push(msg.sender);
+        s_addressToAmountFunded[msg.sender] += msg.value;
     }
 
     function withdraw() public onlyOwner {
-        for (uint256 i = 0; i < funders.length; i++) {
-            address funder = funders[i];
-            addressToAmountFunded[funder] = 0;
+        for (uint256 i = 0; i < s_funders.length; i++) {
+            address funder = s_funders[i];
+            s_addressToAmountFunded[funder] = 0;
         }
-        funders = new address[](0);
+        s_funders = new address[](0);
         (bool callSuccess, ) = payable(msg.sender).call{
             value: address(this).balance
         }("");
@@ -40,7 +40,7 @@ contract FundMe {
     }
 
     modifier onlyOwner() {
-        if (msg.sender != i_owner) {
+        if (msg.sender != I_OWNER) {
             revert FundMe__NotOwner();
         }
         _;
