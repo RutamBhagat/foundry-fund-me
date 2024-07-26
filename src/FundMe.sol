@@ -11,8 +11,8 @@ contract FundMe {
 
     uint256 public constant MINIMUM_USD = 5e18;
     address public immutable I_OWNER;
-    address[] public s_funders;
-    mapping(address funder => uint256 amountFunded) public s_addressToAmountFunded;
+    address[] private s_funders;
+    mapping(address funder => uint256 amountFunded) private s_address_to_amount_funded;
     AggregatorV3Interface private s_price_feed;
 
     constructor(address price_feed) {
@@ -25,13 +25,13 @@ contract FundMe {
             msg.value.getConversionRate(s_price_feed) >= MINIMUM_USD, "Funding amount must be at least 5 USD of ETH"
         );
         s_funders.push(msg.sender);
-        s_addressToAmountFunded[msg.sender] += msg.value;
+        s_address_to_amount_funded[msg.sender] += msg.value;
     }
 
     function withdraw() public onlyOwner {
         for (uint256 i = 0; i < s_funders.length; i++) {
             address funder = s_funders[i];
-            s_addressToAmountFunded[funder] = 0;
+            s_address_to_amount_funded[funder] = 0;
         }
         s_funders = new address[](0);
         (bool callSuccess,) = payable(msg.sender).call{value: address(this).balance}("");
@@ -55,5 +55,13 @@ contract FundMe {
 
     receive() external payable {
         fund();
+    }
+
+    function getAddressToAmountFunded(address fundingAddress) external view returns (uint256) {
+        return s_address_to_amount_funded[fundingAddress];
+    }
+
+    function getFunder(uint256 index) external view returns (address) {
+        return s_funders[index];
     }
 }
