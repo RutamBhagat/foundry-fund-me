@@ -77,7 +77,7 @@ contract FundMeTest is Test {
 
     function testWithDrawFromMultipleFunders() public funded {
         // Funding step
-        uint160 numberOfFunders = 10;
+        uint160 numberOfFunders = 1000;
         uint160 startingFunderIndex = 1;
         for (uint160 i = startingFunderIndex; i < numberOfFunders; i++) {
             hoax(address(i), SEND_VALUE);
@@ -104,9 +104,9 @@ contract FundMeTest is Test {
         assertEq(endingFundMeBalance, 0);
     }
 
-    function testCheaperWithDrawFromMultipleFunders() public funded {
+    function testWithDrawFromMultipleFundersCheaper() public funded {
         // Funding step
-        uint160 numberOfFunders = 10;
+        uint160 numberOfFunders = 1000;
         uint160 startingFunderIndex = 1;
         for (uint160 i = startingFunderIndex; i < numberOfFunders; i++) {
             hoax(address(i), SEND_VALUE);

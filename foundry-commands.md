@@ -50,7 +50,7 @@ This creates a gas snapshot for a specific test and saves it to .gas-snapshot fi
 forge test --match-test testCheaperWithDrawFromMultipleFunders --gas-report
 
 Ran 1 test for test/FundMe.t.sol:FundMeTest
-[PASS] testCheaperWithDrawFromMultipleFunders() (gas: 1080013)
+[PASS] testWithDrawFromMultipleFundersCheaper() (gas: 1080013)
 ```
 
 ```shell
@@ -58,7 +58,6 @@ forge test --gas-report
 
 Ran 10 tests for test/FundMe.t.sol:FundMeTest
 [PASS] testAddsFunderToArrayOfFunders() (gas: 124221)
-[PASS] testCheaperWithDrawFromMultipleFunders() (gas: 1080013)
 [PASS] testFundFailsWithoutEnoughETH() (gas: 47600)
 [PASS] testFundUpdatesFundedDataStructure() (gas: 123881)
 [PASS] testMinimumDollarIsFive() (gas: 8423)
@@ -66,6 +65,7 @@ Ran 10 tests for test/FundMe.t.sol:FundMeTest
 [PASS] testOwnerIsMsgSender() (gas: 8520)
 [PASS] testPriceFeedVersionIsAccurate() (gas: 13665)
 [PASS] testWithDrawFromMultipleFunders() (gas: 1080747)
+[PASS] testWithDrawFromMultipleFundersCheaper() (gas: 1080013)
 [PASS] testWithDrawWithASingleFunder() (gas: 153817)
 Suite result: ok. 10 passed; 0 failed; 0 skipped; finished in 2.73ms (3.31ms CPU time)
 ```
