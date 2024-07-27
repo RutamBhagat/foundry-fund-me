@@ -31,6 +31,6 @@ contract WithDrawingFundMe is Script {
         vm.startBroadcast();
         FundMe(payable(mostRecentlyDeployed)).cheaperWithdraw();
         vm.stopBroadcast();
-        console.log("Withdrawing funds from fundMe contract %s", mostRecentlyDeployed.balance);
+        console.log("Withdrawing funds from fundMe contract, remaining balance is %s", mostRecentlyDeployed.balance);
     }
 }
