@@ -11,6 +11,8 @@ zkout/
 # Docs
 docs/
 
+.DS_Store
+
 # Dotenv file
 .env
 .password
