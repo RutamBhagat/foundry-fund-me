@@ -2,19 +2,19 @@
 pragma solidity ^0.8.19;
 
 import {Test, console} from "forge-std/Test.sol";
-import {FundMe} from "../src/FundMe.sol";
-import {DeployFundMe} from "../script/DeployFundMe.s.sol";
+import {FundMe} from "../../src/FundMe.sol";
+import {DeployFundMe} from "../../script/DeployFundMe.s.sol";
 
 contract FundMeTest is Test {
     FundMe s_fund_me;
-    address USER = makeAddr("user");
+    address public constant USER = address(1);
     uint256 constant SEND_VALUE = 0.1 ether;
-    uint256 constant STARTING_BALANCE = 10 ether;
+    uint256 constant STARTING_USER_BALANCE = 10 ether;
     uint256 constant GAS_PRICE = 1;
 
     function setUp() external {
         s_fund_me = new DeployFundMe().run();
-        vm.deal(USER, STARTING_BALANCE);
+        vm.deal(USER, STARTING_USER_BALANCE);
     }
 
     function testMinimumDollarIsFive() public view {
