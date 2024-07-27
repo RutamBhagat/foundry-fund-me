@@ -38,6 +38,17 @@ contract FundMe {
         require(callSuccess, "Withdrawal failed");
     }
 
+    function cheaperWithdraw() public onlyOwner {
+        address[] memory funders = s_funders;
+        for (uint256 i = 0; i < funders.length; i++) {
+            address funder = funders[i];
+            s_address_to_amount_funded[funder] = 0;
+        }
+        s_funders = new address[](0);
+        (bool callSuccess,) = payable(msg.sender).call{value: address(this).balance}("");
+        require(callSuccess, "Withdrawal failed");
+    }
+
     modifier onlyOwner() {
         if (msg.sender != I_OWNER) {
             revert FundMe__NotOwner();

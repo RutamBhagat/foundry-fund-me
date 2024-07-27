@@ -47,6 +47,32 @@ forge snapshot --match-test testWithdrawFromMultipleFunders
 This creates a gas snapshot for a specific test and saves it to .gas-snapshot file.
 
 ```shell
+forge test --match-test testCheaperWithDrawFromMultipleFunders --gas-report
+
+Ran 1 test for test/FundMe.t.sol:FundMeTest
+[PASS] testCheaperWithDrawFromMultipleFunders() (gas: 1080013)
+```
+
+```shell
+forge test --gas-report
+
+Ran 10 tests for test/FundMe.t.sol:FundMeTest
+[PASS] testAddsFunderToArrayOfFunders() (gas: 124221)
+[PASS] testCheaperWithDrawFromMultipleFunders() (gas: 1080013)
+[PASS] testFundFailsWithoutEnoughETH() (gas: 47600)
+[PASS] testFundUpdatesFundedDataStructure() (gas: 123881)
+[PASS] testMinimumDollarIsFive() (gas: 8423)
+[PASS] testOnlyOwnerCanWithDraw() (gas: 144675)
+[PASS] testOwnerIsMsgSender() (gas: 8520)
+[PASS] testPriceFeedVersionIsAccurate() (gas: 13665)
+[PASS] testWithDrawFromMultipleFunders() (gas: 1080747)
+[PASS] testWithDrawWithASingleFunder() (gas: 153817)
+Suite result: ok. 10 passed; 0 failed; 0 skipped; finished in 2.73ms (3.31ms CPU time)
+```
+
+This is used for providing gas reports for your tests.
+
+```shell
 forge storage
 ```
 
@@ -64,8 +90,6 @@ forge test -m testUserCanFundInteractions
 
 This runs all tests that match "testUserCanFundInteractions".
 
-```
-
 These Forge commands are used for various tasks in Ethereum smart contract development:
 
 1. Installing dependencies
@@ -77,4 +101,3 @@ These Forge commands are used for various tasks in Ethereum smart contract devel
 7. Installing additional development tools
 
 The commands often use options like `--fork-url` to simulate interactions on specific networks, `--match-test` to run specific tests, and `-v` to control verbosity of output. These tools help developers write, test, and optimize their smart contracts efficiently.
-```
